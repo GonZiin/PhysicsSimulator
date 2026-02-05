@@ -7,6 +7,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
-add_executable(main main.cpp)
+add_executable(main 
+    main.cpp 
+    core/WindowRenderer.cpp
+)
 
 target_link_libraries(main ${SDL2_LIBRARIES})
