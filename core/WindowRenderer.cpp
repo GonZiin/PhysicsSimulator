@@ -1,8 +1,10 @@
 #include "WindowRenderer.hpp"
+#include "../graphics/Circle.hpp"
 
 WindowRenderer::WindowRenderer() {
     SDL_Init(SDL_INIT_VIDEO);
-    window = SDL_CreateWindow("Physics Simulator", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, 0);
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
+    window = SDL_CreateWindow("Physics Simulator", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, SDL_WINDOW_ALLOW_HIGHDPI);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     isRunning = true;
 }
@@ -18,6 +20,9 @@ void WindowRenderer::Run() {
         HandleEvents();
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
+
+        Circle::DrawFillCircle(renderer, 340, 240, 50, SDL_Color{255,0,0,255});
+        
         SDL_RenderPresent(renderer);
     }
 }
