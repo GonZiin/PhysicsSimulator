@@ -4,6 +4,7 @@
 class WindowRenderer {
     public:
         WindowRenderer();
+        WindowRenderer(const char* title, int width, int height);
         ~WindowRenderer();
 
         void Run();

@@ -9,6 +9,14 @@ WindowRenderer::WindowRenderer() {
     isRunning = true;
 }
 
+WindowRenderer::WindowRenderer(const char* title, int width, int height) {
+    SDL_Init(SDL_INIT_VIDEO);
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
+    window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, SDL_WINDOW_ALLOW_HIGHDPI);
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    isRunning = true;
+}
+
 WindowRenderer::~WindowRenderer() {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
