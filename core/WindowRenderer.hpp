@@ -14,11 +14,12 @@ private:
     void HandleEvents();
     void Update(float dt);
     void Render();
+    void CheckCollisions();
 
     bool isRunning;
     SDL_Window* window;
     SDL_Renderer* renderer;
 
     std::vector<Particle> particles;
-    Uint64 lastFrameTime; // Variável para guardar o tempo
+    Uint64 lastFrameTime;
 };
