@@ -2,7 +2,6 @@
 #include "../graphics/Circle.hpp"
 
 WindowRenderer::WindowRenderer(const char* title, int width, int height)
-    : particle(400, 100, 1.0f, 20.0f, {0,255,255,255})
 {
     SDL_Init(SDL_INIT_VIDEO);
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
@@ -15,14 +14,26 @@ WindowRenderer::WindowRenderer(const char* title, int width, int height)
 
 void WindowRenderer::Update(float dt) {
     Vector2 gravity(0.0, 980.0f);
-    particle.ApplyForce(gravity * particle.mass);
-    particle.Update(dt);
     int w, h;
     SDL_GetRendererOutputSize(renderer, &w, &h);
 
-    if (particle.position.y + particle.radius >= h) {
-        particle.position.y = h - particle.radius;
-        particle.velocity.y *= -0.8f;
+    for (auto& p : particles) {
+        p.ApplyForce(gravity * p.mass);
+        p.Update(dt);
+
+        if (p.position.y + p.radius >= h) {
+            p.position.y = h - p.radius;
+            p.velocity.y *= -0.8f;
+        }
+
+        if (p.position.x - p.radius <= 0) {
+            p.position.x = p.radius;
+            p.velocity.x *= -0.8f;
+        }
+        else if (p.position.x + p.radius >= w) {
+            p.position.x = w - p.radius;
+            p.velocity.x *= -0.8f;
+        }
     }
 }
 
@@ -45,13 +56,7 @@ void WindowRenderer::Run() {
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
 
-        Circle::DrawFillCircle(
-            renderer,
-            (int)particle.position.x,
-            (int)particle.position.y,
-            (int)particle.radius,
-            particle.color
-        );
+        Render();
         
         SDL_RenderPresent(renderer);
     }
@@ -60,7 +65,36 @@ void WindowRenderer::Run() {
 void WindowRenderer::HandleEvents() {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
-        if (event.type == SDL_QUIT)
+        if (event.type == SDL_QUIT) {
             isRunning = false;
+        }
+        else if (event.type == SDL_MOUSEBUTTONDOWN) {
+            if (event.button.button == SDL_BUTTON_LEFT) {
+                int x, y;
+                SDL_GetMouseState(&x, &y);
+
+                particles.push_back(Particle(
+                    (float)x, (float)y,
+                    1.0f,
+                    15.0f + (rand() %15),
+                    {0, 255, 255, 255}
+                ));
+            }
+        }
+    }
+}
+
+void WindowRenderer::Render() {
+    SDL_SetRenderDrawColor(renderer, 30, 30, 30, 255);
+    SDL_RenderClear(renderer);
+
+    for (const auto& p : particles) {
+        Circle::DrawFillCircle (
+            renderer,
+            (int)p.position.x,
+            (int)p.position.y,
+            (int)p.radius,
+            p.color
+        );
     }
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include <SDL2/SDL.h>
+#include <vector>
 #include "../physics/Particle.hpp"
 
 class WindowRenderer {
@@ -18,6 +19,6 @@ private:
     SDL_Window* window;
     SDL_Renderer* renderer;
 
-    Particle particle;
+    std::vector<Particle> particles;
     Uint64 lastFrameTime; // Variável para guardar o tempo
 };

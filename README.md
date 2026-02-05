@@ -18,7 +18,6 @@ From the terminal install the needed dependencies
 pacman -S mingw-w64-ucrt-x86_64-gcc mingw-w64-ucrt-x86_64-cmake mingw-w64-ucrt-x86_64-sdl2 mingw-w64-ucrt-x86_64-make
 ```
 
-
 ### Fedora
 To run the simulation, ensure that SDL2 is installed on your system.
 If you are using Fedora, you can install the development headers using:
