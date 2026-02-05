@@ -1,1 +1,11 @@
+# Binaries
+main
+test
+
+# Windows binaries
+*.exe
+*.dll
+
+
 .vscode
+build/
