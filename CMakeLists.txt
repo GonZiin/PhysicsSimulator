@@ -11,6 +11,7 @@ add_executable(main
     main.cpp 
     core/WindowRenderer.cpp
     graphics/Circle.cpp
+    physics/Particle.cpp
 )
 
 target_link_libraries(main ${SDL2_LIBRARIES})
